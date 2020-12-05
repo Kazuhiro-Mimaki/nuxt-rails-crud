@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  server-side:
+    build: ./server-side/
+    image: server-side
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/server-side/app
+    tty: true
+    stdin_open: true
