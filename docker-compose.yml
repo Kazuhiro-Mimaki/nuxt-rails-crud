@@ -1,12 +1,27 @@
-version: '3'
+version: '3.8'
+
+volumes:
+  db_data:
 
 services:
   server-side:
     build: ./server-side/
+    command: bundle exec rails server -b 0.0.0.0
     image: server-side
     ports:
       - 3000:3000
     volumes:
-      - .:/server-side/app
+      - ./server-side:/app
+    environment:
+      POSTGRES_PASSWORD: password
     tty: true
     stdin_open: true
+    depends_on:
+      - db
+    links:
+      - db
+
+  db:
+    image: postgres
+    volumes:
+      - db_data/var/lib/postgresql/data
