@@ -39,6 +39,6 @@ class Api::V1::PostsController < ApplicationController
     end
 
     def post_params
-      params.permit(:title)
+      params.require(:post).permit(:title)
     end
 end
