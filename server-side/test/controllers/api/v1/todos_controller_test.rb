@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class PostTest < ActiveSupport::TestCase
+class Api::V1::TodosControllerTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end
