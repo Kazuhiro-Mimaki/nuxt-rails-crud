@@ -7,7 +7,7 @@ RUN apt-get update -qq && \
   nodejs \
   postgresql-client
 
-WORKDIR /app
+WORKDIR /server-app
 
-COPY Gemfile Gemfile.lock /app/
+COPY Gemfile Gemfile.lock /server-app/
 RUN bundle install

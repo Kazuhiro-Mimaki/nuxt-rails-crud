@@ -18,10 +18,20 @@ services:
     ports:
       - 5000:3000
     volumes:
-      - ./server-side:/app
+      - ./server-side:/server-app
     tty: true
     stdin_open: true
     depends_on:
       - db
     links:
       - db
+
+  client-side:
+    build: ./client-side/
+    image: client-side
+    ports:
+      - 8000:8000
+    volumes:
+      - ./client-side:/client-app
+      - /client-app/node_modules
+    command: sh -c "yarn && yarn dev"
