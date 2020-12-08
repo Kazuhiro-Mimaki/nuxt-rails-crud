@@ -31,7 +31,7 @@ class Api::V1::TodosController < ApplicationController
   private
 
     def set_todo
-      @todo = todo.find(params[:id])
+      @todo = Todo.find(params[:id])
     end
 
     def todo_params
