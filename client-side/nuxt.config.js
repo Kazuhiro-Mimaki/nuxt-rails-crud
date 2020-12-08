@@ -33,16 +33,16 @@ export default {
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/stylelint
     '@nuxtjs/stylelint-module',
-    '@nuxtjs/proxy',
     '@nuxtjs/axios',
+    '@nuxtjs/proxy',
     '@nuxtjs/composition-api',
   ],
 
   proxy: {
     '/api': {
-      target: 'http://localhost:3000',
+      target: 'http://server-side:3000',
       pathRewrite: {
-        '^/api': '/api/v1',
+        '^/api': '/api/v1/',
       },
     },
   },
