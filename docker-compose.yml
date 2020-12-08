@@ -5,6 +5,7 @@ volumes:
 
 services:
   db:
+    container_name: database
     image: postgres
     volumes:
       - db_data/var/lib/postgresql/data
@@ -12,6 +13,7 @@ services:
       POSTGRES_PASSWORD: password
 
   server-side:
+    container_name: server-side
     build: ./server-side/
     command: bundle exec rails server -b 0.0.0.0
     image: server-side
@@ -27,6 +29,7 @@ services:
       - db
 
   client-side:
+    container_name: client-side
     build: ./client-side/
     image: client-side
     ports:
