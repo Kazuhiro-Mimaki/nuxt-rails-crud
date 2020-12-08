@@ -16,7 +16,7 @@ services:
     command: bundle exec rails server -b 0.0.0.0
     image: server-side
     ports:
-      - 5000:3000
+      - 3000:3000
     volumes:
       - ./server-side:/server-app
     tty: true
