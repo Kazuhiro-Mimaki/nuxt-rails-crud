@@ -110,7 +110,6 @@ export default defineComponent({
             v-model="todo.title"
             @change="updateTodo(i, todo)"
           />
-          {{ todo.title }}
           <button @click="deleteTodo(todo.id)">削除する</button>
         </li>
       </ul>
