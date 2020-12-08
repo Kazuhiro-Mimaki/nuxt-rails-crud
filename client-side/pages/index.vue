@@ -4,9 +4,9 @@ import {
   reactive,
   ref,
   onMounted,
-} from '@nuxtjs/composition-api';
-import { ITodo } from '../models/todo';
-import $axios from '@nuxtjs/axios';
+} from "@nuxtjs/composition-api";
+import { ITodo } from "../models/todo";
+import $axios from "@nuxtjs/axios";
 
 export default defineComponent({
   setup(_, { root }) {
@@ -15,7 +15,7 @@ export default defineComponent({
     });
 
     const todoItem = reactive({
-      title: '',
+      title: "",
       isDone: false,
     });
 
@@ -24,12 +24,12 @@ export default defineComponent({
     // todoをpost
     const addTodo = async () => {
       try {
-        await root.$axios.post('/api/todos/', {
+        await root.$axios.post("/api/todos/", {
           title: todoItem.title,
           isDone: todoItem.isDone,
         });
         getTodo();
-        todoItem.title = '';
+        todoItem.title = "";
       } catch (e) {
         console.log(e);
       }
@@ -38,7 +38,7 @@ export default defineComponent({
     // todoをget
     const getTodo = async () => {
       try {
-        const response = await root.$axios.get('/api/todos');
+        const response = await root.$axios.get("/api/todos");
         todoList.value = { ...response.data.data };
       } catch (e) {
         console.log(e);
@@ -46,11 +46,10 @@ export default defineComponent({
     };
 
     // todoをupdate
-    const updateTodo = async (i: number, id: number) => {
+    const updateTodo = async (i: number, todo: ITodo) => {
       try {
         const newTodo = todoList.value[i].title;
-        await root.$axios.patch(`/api/todos/${id}`, { title: newTodo });
-        getTodo();
+        await root.$axios.patch(`/api/todos/${todo.id}`, { title: newTodo });
       } catch (e) {
         console.log(e);
       }
@@ -66,7 +65,26 @@ export default defineComponent({
       }
     };
 
-    return { todoItem, todoList, addTodo, deleteTodo, updateTodo };
+    // todoをdone
+    const completeTodo = async (todo: ITodo) => {
+      try {
+        todo.isDone = !todo.isDone;
+        await root.$axios.patch(`/api/todos/${todo.id}`, {
+          isDone: todo.isDone,
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    return {
+      todoItem,
+      todoList,
+      addTodo,
+      deleteTodo,
+      updateTodo,
+      completeTodo,
+    };
   },
 });
 </script>
@@ -80,13 +98,17 @@ export default defineComponent({
         placeholder="ここにタスク内容が入ります"
       />
       <button @click="addTodo()">Todoを追加</button>
-      <Logo />
       <ul>
         <li v-for="(todo, i) in todoList" :key="i">
           <input
+            type="checkbox"
+            :checked="todo.isDone"
+            @change="completeTodo(todo)"
+          />
+          <input
             type="text"
             v-model="todo.title"
-            @change="updateTodo(i, todo.id)"
+            @change="updateTodo(i, todo)"
           />
           {{ todo.title }}
           <button @click="deleteTodo(todo.id)">削除する</button>
@@ -107,8 +129,8 @@ export default defineComponent({
 }
 
 .title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   display: block;
   font-weight: 300;
   font-size: 100px;
