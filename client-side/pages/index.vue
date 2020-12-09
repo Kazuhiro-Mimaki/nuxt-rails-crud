@@ -105,41 +105,69 @@ export default defineComponent({
 
 <template>
   <div class="container">
-    <div>
-      <input
-        v-model="todoItem.title"
-        type="text"
-        placeholder="ここにタスク内容が入ります"
-      />
+    <section class="todo-new">
+      <h1>Add todos</h1>
+      <input v-model="todoItem.title" type="text" placeholder="todoを記入" />
       <button @click="addTodo()">Todoを追加</button>
-    </div>
-    <ul>
-      <li v-for="(todo, i) in todoList" :key="i">
-        <input
-          type="checkbox"
-          :checked="todo.isDone"
-          @change="completeTodo(todo)"
-        />
-        <input type="text" v-model="todo.title" @change="updateTodo(i, todo)" />
-        <button @click="deleteTodo(todo.id)">削除する</button>
-      </li>
-    </ul>
+    </section>
 
-    <div>
-      <h2>Complete todos</h2>
+    <section class="todo-index">
+      <h1>Incomplete todos</h1>
       <ul>
-        <li v-for="(todo, i) in completeTodoList" :key="i">
-          {{ todo.title }}
+        <li v-for="(todo, i) in todoList" :key="i">
+          <input
+            class="item"
+            type="checkbox"
+            :checked="todo.isDone"
+            @change="completeTodo(todo)"
+          />
+          <input
+            class="item"
+            type="text"
+            v-model="todo.title"
+            @change="updateTodo(i, todo)"
+          />
+          <button @click="deleteTodo(todo.id)">削除する</button>
         </li>
       </ul>
-    </div>
+    </section>
+
+    <section class="todo-complete">
+      <h1>Complete todos</h1>
+      <ul>
+        <li v-for="(todo, i) in completeTodoList" :key="i">
+          <input
+            class="item"
+            type="checkbox"
+            :checked="todo.isDone"
+            @change="completeTodo(todo)"
+          />
+          {{ todo.title }}
+          <button @click="deleteTodo(todo.id)">削除する</button>
+        </li>
+      </ul>
+    </section>
   </div>
 </template>
 
 <style>
 .container {
-  margin: 0 auto;
+  margin: 80px auto;
   min-height: 100vh;
   text-align: center;
+}
+
+section {
+  margin-bottom: 30px;
+}
+
+.item {
+  font-size: 1rem;
+  margin: 0 10x;
+}
+
+li {
+  list-style: none;
+  margin-bottom: 0.5em;
 }
 </style>
