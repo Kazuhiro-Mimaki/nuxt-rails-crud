@@ -2,7 +2,12 @@ class Api::V1::TodosController < ApplicationController
   before_action :set_todo, only: [:update, :destroy]
 
   def index
-    todos = Todo.all
+    todos = Todo.where(isDone: false)
+    render json: { status: 'SUCCESS', message: 'Loaded todos', data: todos }
+  end
+
+  def complete
+    todos = Todo.where(isDone: true)
     render json: { status: 'SUCCESS', message: 'Loaded todos', data: todos }
   end
 
