@@ -8,9 +8,11 @@ $ git clone git@github.com:Kazuhiro-Mimaki/nuxt-rails-crud.git
 $ cd nuxt-rails-crud
 $ docker-compose build
 $ docker-compose up -d
+
 # Setup for db
 $ docker-compose exec server-side bundle exec rails db:create
 $ docker-compose exec server-side bundle exec rails db:migrate
+
 # Open
 $ open http://localhost:8000
 ```
